@@ -4,7 +4,11 @@ import java.util.List;
 
 //TODO: document this class
 public class IntVector {
-	
+
+	//declare local variables
+	int capacity=0,size=0,index=0;
+	int a[];
+
 	/**
 	 * Copies the first n values from
 	 * src to dest
@@ -15,9 +19,14 @@ public class IntVector {
 	 * @return destination array
 	 */
 	public static int[] copyTo(int[] src, int[] dest, int n) {
-		return new int[] {}; // replace with your code
+		dest = new int[n - 1];
+		for (int i=0; i<src.length; i++) {
+			dest[i] = src[i];
+		}
+		return dest;
 	}
-	
+
+
 	/**
 	 * Computes new capacity when adding to the size:
 	 * if enough capacity, return the current capacity;
@@ -31,18 +40,23 @@ public class IntVector {
 	 * @return new capacity
 	 */
 	public static int doubleIfNeeded(int capacity, int size, int toAdd) {
-		return 0; // replace with your code
+		int newcapacity=0;
+		if(capacity>=capacity || size >=size || (toAdd>size && toAdd>capacity)) {
+			newcapacity=capacity*2;
+		}
+		return newcapacity;
 	}
-	
+
 	//
-	
+
 	/**
 	 * Initialize with capacity=10, size=0
 	 */
 	public IntVector() {
-		// replace with your code
+		this.capacity=10;
+		this.size=0;
 	}
-	
+
 	/**
 	 * Initialize with size=0 and
 	 * the supplied initial capacity (0
@@ -51,9 +65,9 @@ public class IntVector {
 	 * @param initCapacity initial capacity
 	 */
 	public IntVector(int initCapacity) {
-		// replace with your code
+		this.capacity=initCapacity;
+		this.size=0;
 	}
-	
 	/**
 	 * Initialize with provided initial size,
 	 * all of which have the same initial value.
@@ -64,9 +78,16 @@ public class IntVector {
 	 * @param initValue initial value of all elements
 	 */
 	public IntVector(int initSize, int initValue) {
-		// replace with your code
+		this.capacity=initSize;
+		this.size=initSize;
+		this.a=new int[size];//Intializing array with size
+		for(int i=size;i>0;i--)
+		{
+			a[i]=initValue;
+			size--;
+		}
 	}
-	
+
 	/**
 	 * Initializes the size,
 	 * capacity, and values
@@ -76,9 +97,9 @@ public class IntVector {
 	 * @param source initial contents
 	 */
 	public IntVector(int[] source) {
-		// replace with your code
+		capacity=size=source.length;      
 	}
-	
+
 	/**
 	 * [e_0, e_1, ... e_size] 
 	 * 
@@ -86,9 +107,13 @@ public class IntVector {
 	 */
 	@Override
 	public String toString() {
-		return ""; // replace with your code
+		StringBuilder sb=new StringBuilder();
+		for(int i=0;i<a.length;i++){
+			sb.append("a"+""+i+""+a[i]);
+		}
+		return sb.toString();
 	}
-	
+
 	/**
 	 * Returns true if supplied
 	 * object is also an IntVector
@@ -100,9 +125,13 @@ public class IntVector {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		return false; // replace with your code
+		if(o.getClass().toString()=="IntVector")
+		{
+			return true;
+		}
+		return false;
 	}
-	
+
 	/**
 	 * Returns true if supplied
 	 * index is valid:
@@ -112,18 +141,29 @@ public class IntVector {
 	 * @return true if valid index
 	 */
 	public boolean validIndex(int index) {
-		return false; // replace with your code
+		if(size==0 && index==size)
+		{
+			return true;
+		}
+		if(size>0)
+		{
+			if((index>=0 && index <=size - 1))
+			{
+				return true;
+			}
+		}
+		return false;      
 	}
-	
+
 	/**
 	 * Gets the current size
 	 * 
 	 * @return current size
 	 */
 	public int getSize() {
-		return 0; // replace with your code
+		return this.size;
 	}
-	
+
 	/**
 	 * Returns true if empty
 	 * 
@@ -132,7 +172,7 @@ public class IntVector {
 	public boolean isEmpty() {
 		return false; // replace with your code
 	}
-	
+
 	/**
 	 * Returns current capacity
 	 * 
@@ -141,7 +181,7 @@ public class IntVector {
 	public int getCapacity() {
 		return 0; // replace with your code
 	}
-	
+
 	/**
 	 * Gets the element at supplied
 	 * index, null if invalid
@@ -149,11 +189,20 @@ public class IntVector {
 	 * 
 	 * @param index desired index
 	 * @return corresponding element, null if invalid index
+	 * @throws Exception 
 	 */
-	public Integer get(int index) {
-		return null; // replace with your code
-	}
-	
+	public Integer get(int index) throws Exception {
+	    if(index>this.index-1)
+	       {
+	           throw new Exception("ArrayIndexOutOfBound");
+	       }
+	       if(index<0)
+	       {
+	           throw new Exception("Negative Value");
+	       }
+	       return this.a[index];  
+	   }
+
 	/**
 	 * Returns an array with
 	 * the current contents
@@ -161,9 +210,9 @@ public class IntVector {
 	 * @return array with current elements
 	 */
 	public int[] toArray() {
-		return new int[] {}; // replace with your code
-	}
-	
+		  return new int[] {};
+	   }
+
 	/**
 	 * Changes the value of an element
 	 * 
@@ -172,18 +221,31 @@ public class IntVector {
 	 * @return new value, null if invalid index
 	 */
 	public Integer set(int index, int value) {
-		return null; // replace with your code
-	}
-	
+		  for(int i=0;i<a.length;i++)
+	       {
+	           if(i==index)
+	           {
+	               a[index]=value;
+	           }
+	       }
+	       return a[index];
+	   }
+
 	/**
 	 * Reverses the contents
 	 * 
 	 * [1, 2, 3] => [3, 2, 1]
 	 */
 	public void reverse() {
-		// replace with your code
-	}
-	
+		 int[] reverse=new int[a.length - 1];
+	       int j=0;
+	       for(int i=a.length - 1;i>0;i--)
+	       {
+	           reverse[j]=a[i];
+	           j++;
+	       }   
+	   }
+
 	/**
 	 * Makes sure there is room for
 	 * at least n elements. If greater
@@ -193,9 +255,27 @@ public class IntVector {
 	 * @param n desired minimum capacity
 	 */
 	public void ensureCapacity(int n) {
-		// replace with your code
-	}
-	
+		 if(n<=capacity)
+	       {
+	           //Since minCapacity is less than
+	           //the current capacity then do nothing
+	       }
+	       else
+	       {
+	           this.capacity=n;
+
+	           for(int i=0;i<n;i++)
+	           {
+	               for(int j=0;j<capacity;j++)
+	               {
+	                   //copying all the elements
+	                   //into bigger array
+	                   a[i]=a[j];
+	               }
+	           }
+	       }
+	   }
+
 	/**
 	 * Adds an element to the end.
 	 * 
@@ -207,9 +287,15 @@ public class IntVector {
 	 * @return value added
 	 */
 	public int add(int value) {
-		return 0; // replace with your code
-	}
-	
+		       if(this.index==this.size)
+		       {
+		           //we need to increase the size of data[]
+		           getCapacity();
+		       }
+		       a[this.index]=value;
+		       return this.index++;
+		   }
+
 	/**
 	 * Add a value at a supplied index.
 	 * If not the end, all values from
@@ -226,9 +312,14 @@ public class IntVector {
 	 * @return value added, null if invalid index
 	 */
 	public Integer add(int index, int value) {
-		return null; // replace with your code
-	}
-	
+		 //Shifting the array to accomodate the new element
+	       for(int i=a.length-1; i > index; i--){
+	           a[i] = a[i-1];
+	       }
+	       a[index] = value;
+	       return null;
+	   }
+
 	/**
 	 * Add a list of values to the end.
 	 * 
@@ -237,11 +328,22 @@ public class IntVector {
 	 * doubleIfNeeded).
 	 * 
 	 * @param values list of values to add in order
+	 * @return 
 	 */
-	public void addAll(List<Integer> values) {
-		// replace with your code
-	}
-	
+	public int[] addAll(List<Integer> values) {
+	       int[] c = new int[a.length+values.length];
+	       int count=0;
+	       for(int i = 0; i < a.length; i++) {
+	           c[i] = a[i];
+	           count++;
+	       }
+	       for(int j = 0; j < values.length;j++) {
+	           c[count++] = values[j];
+	       }
+
+	       return c;
+	   }
+
 	/**
 	 * Add a list of values at a supplied index.
 	 * If not the end, all values from index
@@ -257,35 +359,68 @@ public class IntVector {
 	 * @param values
 	 */
 	public void addAll(int index, List<Integer> values) {
-		// replace with your code
-	}
-	
+		   int[] c = new int[a.length+values.size()];
+	       int count=0;
+	       for(int i = 0; i < a.length; i++) {
+	           if(i==index)
+	           {
+	               for(int j = 0; j < values.size();j++)
+	               {
+	                   c[count++] =values.indexOf(j);
+	               }
+	          
+	           }
+	       }
+	       for(int j = 0; j < values.size();j++)
+	       {
+	           c[count++] = a[j];
+	       }
+	   }
+
 	/**
 	 * Sets the size to 0
 	 * without changing
 	 * capacity.
 	 */
 	public void clear() {
-		// replace with your code
-	}
-	
+		  this.size=0;
+	   }
+
 	/**
 	 * Reduces the capacity to
 	 * the current size
 	 */
 	public void trimToSize() {
-		// replace with your code
-	}
-	
+		       this.capacity=size;
+		       int b[]=new int[capacity];
+		       for(int i=0;i<a.length-1;i++){
+		           //shrinking the size of the array
+		           //and copying it to the new array.
+		           b[i]=a[i];
+		       }
+		   }
+
 	/**
 	 * Remove the last element in the list
 	 * 
 	 * @return removed element, null if was empty
 	 */
 	public Integer removeLast() {
-		return null; // replace with your code
-	}
-	
+		 //Remove Last Element of the array
+	       int b[]=new int[a.length - 1];
+
+	       for(int i=0;i<a.length-1;i++){
+	           if(i == a.length - 1){
+	               a[i]=0;
+	           }else{
+	               b[i]=a[i];
+	           }
+	       }
+	       //Returning the last element
+	       return b[b.length - 1];
+
+	   }
+
 	/**
 	 * Remove element at supplied index.
 	 * All elements after are shifted
@@ -295,9 +430,18 @@ public class IntVector {
 	 * @return removed value, null if invalid index
 	 */
 	public Integer remove(int index) {
-		return null; // replace with your code
-	}
-	
+		
+		       int b[]=new int[a.length - 1];
+		       for(int i=0;i<a.length-1;i++){
+		           if(i == index){
+		               a[i]=0;
+		           }else{
+		               b[i]=a[i];
+		           }
+		       }
+		       //Returning the last element
+		       return a[index];
+		   }
 	/**
 	 * Removes the first element that has
 	 * the supplied value.
@@ -306,9 +450,24 @@ public class IntVector {
 	 * @return value, null if not found
 	 */
 	public Integer removeFirst(int value) {
-		return null; // replace with your code
-	}
-	
+		   int b[]=new int[a.length - 1];
+	       boolean found=true;
+	       for(int i=0;i<a.length-1;i++)
+	       {
+	           if(a[i] == value){
+	               found=true;
+	               a[i]=0;
+	           }else{
+	               b[i]=a[i];
+	           }
+	       }
+	       if(!found)
+	       {
+	           return null;
+	       }
+	       //Returning the first element
+	       return 1;
+	   }
 	/**
 	 * Removes all elements that pass
 	 * a supplied test
@@ -317,9 +476,23 @@ public class IntVector {
 	 * @return number of elements removed
 	 */
 	public int removeAllIf(IntTester p) {
-		return 0; // replace with your code
+		int count=0;
+		int b[]=new int[a.length - 1];
+		boolean found=true;
+		for(int i=0;i<a.length-1;i++)
+		{
+			if(p.test(a[i], 0))
+			{
+				count++;
+			}
+			else
+			{
+				b[i]=a[i];
+			}
+		}
+		return count;
 	}
-	
+
 	/**
 	 * Removes all elements of a
 	 * particular value.
@@ -328,6 +501,19 @@ public class IntVector {
 	 * @return number of elements removed
 	 */
 	public int removeAll(int value) {
-		return 0; // replace with your code
+		int count=0;
+
+		int b[]=new int[a.length - 1];
+		boolean found=true;
+		for(int i=0;i<a.length-1;i++){
+			if(a[i] == value)
+			{
+				a[i]=0;
+				count++;
+			}else{
+				b[i]=a[i];
+			}
+		}
+		return count;
 	}
 }
